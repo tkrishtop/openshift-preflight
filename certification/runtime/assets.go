@@ -12,7 +12,9 @@ var (
 	images = map[string]string{
 		// operator policy, operator-sdk scorecard
 		// quay.io/operator-framework/scorecard-test:v1.13.1
-		"scorecard": "quay.io/operator-framework/scorecard-test@sha256:417d5157a782f72ba83cc613a0a3997cea088fe025c188121f782e93b38bf04e",
+		//"scorecard": "quay.io/operator-framework/scorecard-test@sha256:417d5157a782f72ba83cc613a0a3997cea088fe025c188121f782e93b38bf04e",
+		// operator-sdk:master with fix for busybox
+		"scorecard": "quay.io/operator-framework/scorecard-test@sha256:4e166f5a68a5183986d512d8647c0da9436276d5c1c8ed7ab31cf19ed5a1649a",
 	}
 )
 
