@@ -7,6 +7,8 @@ ARG quay_expiration
 # Build the preflight binary
 COPY . /go/src/preflight
 WORKDIR /go/src/preflight
+# copy homemade operator-sdk:master binary
+RUN cp operator-sdk /usr/local/bin/operator-sdk && chmod 755 /usr/local/bin/operator-sdk
 RUN make build
 
 # ubi8:latest
@@ -18,7 +20,7 @@ LABEL quay.expires-after=${quay_expiration}
 
 # Define versions for dependencies
 ARG OPENSHIFT_CLIENT_VERSION=4.7.19
-ARG OPERATOR_SDK_VERSION=1.13.1
+# ARG OPERATOR_SDK_VERSION=1.13.1
 
 # Add preflight binary
 COPY --from=builder /go/src/preflight/preflight /usr/local/bin/preflight
@@ -35,8 +37,8 @@ RUN dnf install -y \
 RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OPENSHIFT_CLIENT_VERSION}/openshift-client-linux-${OPENSHIFT_CLIENT_VERSION}.tar.gz | tar -xzv -C /usr/local/bin oc
 
 # Install Operator SDK binray
-RUN curl -Lo /usr/local/bin/operator-sdk https://github.com/operator-framework/operator-sdk/releases/download/v${OPERATOR_SDK_VERSION}/operator-sdk_linux_amd64 \
-    && chmod 755 /usr/local/bin/operator-sdk
+# RUN curl -Lo /usr/local/bin/operator-sdk https://github.com/operator-framework/operator-sdk/releases/download/v${OPERATOR_SDK_VERSION}/operator-sdk_linux_amd64 \
+#     && chmod 755 /usr/local/bin/operator-sdk
 
 ENTRYPOINT ["/usr/local/bin/preflight"]
 CMD ["--help"]
